@@ -13,19 +13,7 @@ import javax.imageio.ImageIO;
 
 public class ResourceLoader
 {
-    class ResourceCache<T> {
-        private HashMap<String, T> cache = new HashMap<String, T>();
-        
-        public T get(String key) {
-            return this.cache.get(key);
-        }
-        
-        public void put(String key, T obj) {
-            this.cache.put(key, obj);
-        }
-    }
-    
-    private ResourceCache<Object> resources = new ResourceCache<Object>();
+    private HashMap<String, Object> resources = new HashMap<String, Object>();
     
     public boolean loadImage(String name, String imgPath) {
         BufferedImage img = loadImage(imgPath);
@@ -43,7 +31,7 @@ public class ResourceLoader
     }
     
     public Set<String> getNames() {
-        return this.resources.cache.keySet();
+        return this.resources.keySet();
     }
     
     public static BufferedImage loadImage(String imgPath) {
