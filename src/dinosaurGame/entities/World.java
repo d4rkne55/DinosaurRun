@@ -15,6 +15,7 @@ public class World
     public Terrain terrain;
     public List<Entity> obstacles;
     
+    private long obstacleDelay;
     private long lastObstacleCreation;
     private boolean multiple = false;
     private boolean clearRequested = false;
@@ -50,7 +51,6 @@ public class World
     
     private void generateObstacles() {
         int maxCount = 3;
-        //int minDistance = 100;
         
         // if an obstacle is out of view, remove it
         if (!this.obstacles.isEmpty() && !this.obstacles.get(0).isVisible()) {
@@ -58,23 +58,21 @@ public class World
         }
         
         if (this.obstacles.size() < maxCount) {
-            // generate random delay after which an obstacle should be added
-            long randDelay = (long) RandomNumber.getIntRange(600, 5000);
-            
             // manual time check and not Java's Timer class as the latter results in
             // concurrent modification of the obstacles list with the foreach in draw()
-            if (this.multiple || System.currentTimeMillis() - this.lastObstacleCreation >= randDelay) {
+            if (this.multiple || System.currentTimeMillis() - this.lastObstacleCreation >= this.obstacleDelay) {
                 int posX = Game.window.getWidth();
                 if (this.multiple && !this.obstacles.isEmpty()) {
                     posX += this.obstacles.get(this.obstacles.size() - 1).getImage().getWidth();
                 }
                 
-                obstacles.add(new Cactus(posX, -45, RandomNumber.getFloatRange(0.75f, 1.0f)));
+                obstacles.add(new Cactus(posX, -50, RandomNumber.getFloatRange(0.75f, 1.0f)));
                 
                 this.lastObstacleCreation = System.currentTimeMillis();
-                // random choice whether the next obstacle should be placed next to this one
-                // TODO: Doesn't really work as expected..
-                this.multiple = RandomNumber.getIntRange(0, 1) == 1;
+                // random delay after which an obstacle should be added
+                this.obstacleDelay = (long) RandomNumber.getIntRange(750, 2500);
+                // random choice whether the next obstacle should be placed next to this one, max two together
+                this.multiple = (this.multiple) ? false : RandomNumber.getIntRange(0, 1) == 1;
             }
         }
     }
