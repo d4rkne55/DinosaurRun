@@ -200,9 +200,10 @@ public class Game implements Runnable
         player.setAlive(true);
         player.isJumping = false;
         // don't clear the list directly, as that can potentially
-        // throw a ConcurrentModificationException (because of the draw for loop)
+        // throw a ConcurrentModificationException (because of the draw for-loop)
         world.requestClear();
         World.speed = 9;
+        score.updateHighscore();
         score.reset();
     }
 }

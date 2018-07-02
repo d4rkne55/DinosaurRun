@@ -36,6 +36,11 @@ public class ScorePanel
         String scoreText = String.valueOf(this.currentScore);
         int chrW = font.getSize() / 2;
         int chrH = font.getSize();
+        
+        if (highScore > 0) {
+            scoreText = "HI " + highScore + "  " + scoreText;
+        }
+        
         g.drawString(scoreText, Game.window.getWidth() - (scoreText.length() + 1) * chrW, chrH);
     }
     
