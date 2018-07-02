@@ -17,6 +17,9 @@ public class Player extends Entity
         // we don't want it to be handled relative to the world offset..
         this.position.x = 150;
         this.position.y = Game.world.terrain.getY() - 46;
+        
+        // (pre-)load the dead player picture
+        Game.resources.loadImage("player_dead", "assets/dino_crashed.png");
     }
     
     public int getX() {
@@ -25,9 +28,8 @@ public class Player extends Entity
     
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
-        String img = (isAlive) ? "dino" : "dino_crashed";
+        String img = (isAlive) ? "player" : "player_dead";
         
-        // TODO: Don't fetch image at call, load and store it at construction and just switch it here
-        loadImage("assets/" + img + ".png");
+        this.image = Game.resources.getImage(img);
     }
 }

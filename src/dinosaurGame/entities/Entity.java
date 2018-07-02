@@ -3,10 +3,6 @@ package dinosaurGame.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import dinosaurGame.Game;
 import dinosaurGame.helper.Position;
@@ -23,21 +19,12 @@ public abstract class Entity
         this.name = name;
         this.position = new Position(x - World.offset, y);
         
-        loadImage(imgPath);
+        Game.resources.loadImage(name.toLowerCase(), imgPath);
+        this.image = Game.resources.getImage(name.toLowerCase());
     }
     
     public void draw(Graphics g) {
-        g.drawImage(this.image, this.getX(), this.getY(), null);
-    }
-    
-    public boolean loadImage(String imgPath) {
-        try {
-            this.image = ImageIO.read(new File(imgPath));
-            return true;
-        } catch (IOException e) {
-            System.out.print(this.name + " image couldn't be loaded.");
-            return false;
-        }
+        g.drawImage(this.getImage(), this.getX(), this.getY(), null);
     }
     
     public BufferedImage getImage() {

@@ -10,6 +10,7 @@ import dinosaurGame.entities.Entity;
 import dinosaurGame.entities.Player;
 import dinosaurGame.entities.World;
 import dinosaurGame.helper.InputHandler;
+import dinosaurGame.helper.ResourceLoader;
 import dinosaurGame.overlays.GameOver;
 import dinosaurGame.overlays.ScorePanel;
 
@@ -18,6 +19,7 @@ public class Game implements Runnable
     public static Window window;
     BufferStrategy buffer;
     InputHandler events;
+    public static ResourceLoader resources;
     public static World world;
     public static Player player;
     public static ScorePanel score;
@@ -45,10 +47,14 @@ public class Game implements Runnable
         this.events = new InputHandler();
         window.addKeyListener(events);
         
+        resources = new ResourceLoader();
+        
         world = new World();
         
         player = new Player();
         
+        // register the custom font so it can be used in Font constructor
+        ResourceLoader.registerFont("assets/ARCADECLASSIC.TTF");
         score = new ScorePanel();
     }
     
