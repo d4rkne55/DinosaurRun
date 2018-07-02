@@ -69,7 +69,7 @@ public class World
                     posX += this.obstacles.get(this.obstacles.size() - 1).getImage().getWidth();
                 }
                 
-                obstacles.add(new Cactus(posX, -45));
+                obstacles.add(new Cactus(posX, -45, RandomNumber.getFloatRange(0.75f, 1.0f)));
                 
                 this.lastObstacleCreation = System.currentTimeMillis();
                 // random choice whether the next obstacle should be placed next to this one

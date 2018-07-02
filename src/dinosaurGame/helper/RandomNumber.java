@@ -19,4 +19,12 @@ public final class RandomNumber
     public static int getIntRange(int min, int max) {
         return min + rand.nextInt(max + 1 - min);
     }
+    
+    public static float getFloat() {
+        return rand.nextFloat();
+    }
+    
+    public static float getFloatRange(float min, float max) {
+        return min + rand.nextFloat() * (max - min);
+    }
 }

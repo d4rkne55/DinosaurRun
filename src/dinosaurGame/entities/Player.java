@@ -44,6 +44,10 @@ public class Player extends Entity
         return this.position.x;
     }
     
+    public void setX(int posX) {
+        this.position.x = posX;
+    }
+    
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
         String img = (isAlive) ? "player" : "player_dead";

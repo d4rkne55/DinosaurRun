@@ -40,7 +40,7 @@ public abstract class Entity
     }
     
     public void setX(int posX) {
-        this.position.x = posX;
+        this.position.x = posX - World.offset;
     }
     
     public void setY(int posY) {
