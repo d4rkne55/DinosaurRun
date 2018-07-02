@@ -1,9 +1,15 @@
 package dinosaurGame.entities;
 
+import java.awt.image.BufferedImage;
+
 import dinosaurGame.Game;
+import dinosaurGame.helper.AnimatedImage;
+import dinosaurGame.helper.ResourceLoader;
 
 public class Player extends Entity
 {
+    private AnimatedImage imgAnim;
+    
     public boolean hasCollision = true;
     public boolean isAlive = true;
     public boolean isJumping = false;
@@ -18,8 +24,20 @@ public class Player extends Entity
         this.position.x = 150;
         this.position.y = Game.world.terrain.getY() - 46;
         
+        this.imgAnim = new AnimatedImage(200);
+        this.imgAnim.addFrame(ResourceLoader.loadImage("assets/dino_run1.png"));
+        this.imgAnim.addFrame(ResourceLoader.loadImage("assets/dino_run2.png"));
+        
         // (pre-)load the dead player picture
         Game.resources.loadImage("player_dead", "assets/dino_crashed.png");
+    }
+    
+    public BufferedImage getImage() {
+        if (this.isAlive && !this.isJumping) {
+            return this.imgAnim.nextFrame();
+        }
+        
+        return this.image;
     }
     
     public int getX() {
