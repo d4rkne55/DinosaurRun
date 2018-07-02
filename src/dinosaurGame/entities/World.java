@@ -10,7 +10,7 @@ import dinosaurGame.helper.RandomNumber;
 public class World
 {
     public static int offset = 0;
-    public static int speed = 6;
+    public static int speed = 9;
     
     public Terrain terrain;
     public List<Entity> obstacles;

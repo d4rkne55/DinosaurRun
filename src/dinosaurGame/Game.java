@@ -196,7 +196,7 @@ public class Game implements Runnable
         // don't clear the list directly, as that can potentially
         // throw a ConcurrentModificationException (because of the draw for loop)
         world.requestClear();
-        World.speed = 6;
+        World.speed = 9;
         score.reset();
     }
 }
