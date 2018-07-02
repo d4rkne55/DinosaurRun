@@ -1,6 +1,7 @@
 package dinosaurGame.overlays;
 
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import dinosaurGame.Game;
@@ -33,15 +34,16 @@ public class ScorePanel
         Font font = new Font("ArcadeClassic", Font.PLAIN, 24);
         g.setFont(font);
         
-        String scoreText = String.valueOf(this.currentScore);
-        int chrW = font.getSize() / 2;
-        int chrH = font.getSize();
+        String scoreText = (highScore > 0) ? "HI  " + highScore + "    " + currentScore : String.valueOf(this.currentScore);
+        FontMetrics metrics = g.getFontMetrics();
+        int strW = metrics.stringWidth(scoreText);
+        int strH = metrics.getHeight();
         
-        if (highScore > 0) {
-            scoreText = "HI " + highScore + "  " + scoreText;
-        }
+        // why is strH double the actual height? retina display stuff?
+        g.drawString(scoreText, Game.window.getWidth() - strW - metrics.charWidth('0'), strH);
         
-        g.drawString(scoreText, Game.window.getWidth() - (scoreText.length() + 1) * chrW, chrH);
+        // draw box for debug
+//        g.drawRect(Game.window.getWidth() - strW - metrics.charWidth('0'), strH / 2, strW, strH / 2);
     }
     
     public void updateHighscore() {
