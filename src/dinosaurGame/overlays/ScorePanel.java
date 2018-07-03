@@ -1,5 +1,6 @@
 package dinosaurGame.overlays;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -34,13 +35,25 @@ public class ScorePanel
         Font font = new Font("ArcadeClassic", Font.PLAIN, 24);
         g.setFont(font);
         
-        String scoreText = (highScore > 0) ? "HI  " + highScore + "    " + currentScore : String.valueOf(this.currentScore);
+        String highScoreText = "HI  " + highScore;
+        String scoreText = String.format("%03d", this.currentScore);
+        
+        int spacing = 20;
         FontMetrics metrics = g.getFontMetrics();
-        int strW = metrics.stringWidth(scoreText);
+        int str1W = metrics.stringWidth(highScoreText);
+        int str2W = metrics.stringWidth(scoreText);
+        int strW = str1W + spacing + str2W;
+        int chrW = metrics.charWidth('0');
+        // why is strH double the actual height? retina display stuff?
         int strH = metrics.getHeight();
         
-        // why is strH double the actual height? retina display stuff?
-        g.drawString(scoreText, Game.window.getWidth() - strW - metrics.charWidth('0'), strH);
+        if (highScore > 0) {
+            g.setColor(new Color(115, 115, 115));
+            g.drawString(highScoreText, Game.window.getWidth() - strW - chrW, strH);
+        }
+        
+        g.setColor(new Color(83, 83, 83));
+        g.drawString(scoreText, Game.window.getWidth() - str2W - chrW, strH);
         
         // draw box for debug
 //        g.drawRect(Game.window.getWidth() - strW - metrics.charWidth('0'), strH / 2, strW, strH / 2);
