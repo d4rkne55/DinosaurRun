@@ -15,6 +15,13 @@ public class ResourceLoader
 {
     private HashMap<String, Object> resources = new HashMap<String, Object>();
     
+    /**
+     * Loads and stores an image to the cache
+     * 
+     * @param name
+     * @param imgPath
+     * @return {@code true} when loaded and stored, {@code false} when the requested image couldn't be loaded
+     */
     public boolean loadImage(String name, String imgPath) {
         BufferedImage img = loadImage(imgPath);
         
@@ -26,14 +33,27 @@ public class ResourceLoader
         }
     }
     
+    /**
+     * Gets stored image from cache
+     * 
+     * @param name
+     */
     public BufferedImage getImage(String name) {
         return (BufferedImage) this.resources.get(name);
     }
     
+    /**
+     * Returns a Set with all the names/keys of stored resources
+     */
     public Set<String> getNames() {
         return this.resources.keySet();
     }
     
+    /**
+     * Static function for just loading and returning the requested image. No use of cache.
+     * 
+     * @param imgPath
+     */
     public static BufferedImage loadImage(String imgPath) {
         try {
             return ImageIO.read(new File(imgPath));
@@ -43,6 +63,11 @@ public class ResourceLoader
         }
     }
     
+    /**
+     * Static function for loading and registering a custom font
+     * 
+     * @param filePath
+     */
     public static void registerFont(String filePath) {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         
