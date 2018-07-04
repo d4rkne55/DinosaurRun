@@ -18,7 +18,7 @@ public class Position
      * @param relativeX  the percentage
      */
     public static int getAbsoluteX(double relativeX) {
-        return (int) (Game.window.getWidth() * relativeX);
+        return Game.window.getBorders().left + (int) (Game.window.getContentWidth() * relativeX);
     }
     
     /**
@@ -27,6 +27,6 @@ public class Position
      * @param relativeY  the percentage
      */
     public static int getAbsoluteY(double relativeY) {
-        return (int) (Game.window.getHeight() * relativeY);
+        return Game.window.getBorders().top + (int) (Game.window.getContentHeight() * relativeY);
     }
 }

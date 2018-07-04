@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Insets;
 
 import dinosaurGame.Game;
 
@@ -45,18 +46,19 @@ public class ScorePanel
         int strW = str1W + spacing + str2W;
         int chrW = metrics.charWidth('0');
         // why is strH double the actual height? retina display stuff?
-        int strH = metrics.getHeight();
+        float strH = (float) metrics.getHeight() / 2;
+        Insets windowBorders = Game.window.getBorders();
         
         if (highScore > 0) {
             g.setColor(new Color(115, 115, 115));
-            g.drawString(highScoreText, Game.window.getWidth() - strW - chrW, strH);
+            g.drawString(highScoreText, Game.window.getWidth() - strW - chrW, windowBorders.top + (int) (strH * 2));
         }
         
         g.setColor(new Color(83, 83, 83));
-        g.drawString(scoreText, Game.window.getWidth() - str2W - chrW, strH);
+        g.drawString(scoreText, Game.window.getWidth() - str2W - chrW, windowBorders.top + (int) (strH * 2));
         
         // draw box for debug
-//        g.drawRect(Game.window.getWidth() - strW - metrics.charWidth('0'), strH / 2, strW, strH / 2);
+//        g.drawRect(Game.window.getWidth() - strW - metrics.charWidth('0'), windowBorders.top + (int) strH, strW, (int) strH);
     }
     
     public void updateHighscore() {

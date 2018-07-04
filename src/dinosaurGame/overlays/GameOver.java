@@ -15,8 +15,8 @@ public class GameOver
         String text = "GAME OVER";
         FontMetrics metrics = g.getFontMetrics();
         int strW = metrics.stringWidth(text);
-        int strH = metrics.getHeight();
+        float strH = (float) metrics.getHeight() / 2;
         
-        g.drawString(text, Position.getAbsoluteX(0.5) - strW / 2, Position.getAbsoluteY(0.5) - strH / 2);
+        g.drawString(text, Position.getAbsoluteX(0.5) - strW / 2, Position.getAbsoluteY(0.425) + (int) (strH / 2));
     }
 }
