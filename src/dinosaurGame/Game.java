@@ -9,6 +9,7 @@ import java.awt.image.BufferStrategy;
 import dinosaurGame.entities.Entity;
 import dinosaurGame.entities.Player;
 import dinosaurGame.entities.World;
+import dinosaurGame.helper.Animation;
 import dinosaurGame.helper.InputHandler;
 import dinosaurGame.helper.ResourceLoader;
 import dinosaurGame.overlays.GameOver;
@@ -125,9 +126,13 @@ public class Game implements Runnable
     }
     
     public void runPhysics() {
-        double jumpHeight = (double) player.jumpHeight;
-        double pixelPerFrame = player.jumpHeight / ((double) player.jumpDuration / 2 / 1000 * REFRESH_RATE);
-        double pixelLeft = 0.0;
+        final int playerYPos = player.getY();
+        Animation anim = new Animation((double) player.jumpHeight, (int) (player.jumpDuration / 2), Animation.EASING_SINE);
+        
+        final int ANIM_NONE = 0;
+        final int ANIM_UP = 1;
+        final int ANIM_DOWN = 2;
+        int animMode = ANIM_NONE;
         
         while (true) {
             long execStartTime = System.nanoTime();
@@ -142,36 +147,23 @@ public class Game implements Runnable
             
             // jump animation
             if (player.isAlive && player.isJumping) {
-                if (jumpHeight != 0) {
-                    int pixelToMove = (int) pixelPerFrame;
-                    pixelLeft += pixelPerFrame - pixelToMove;
-                    
-                    // if pixelLeft is a round number, add it to pixelToMove
-                    if ((double) Math.round(pixelLeft) == pixelLeft) {
-                        pixelToMove += pixelLeft;
-                        pixelLeft = 0.0;
+                if (animMode == ANIM_NONE) {
+                    animMode = ANIM_UP;
+                }
+                
+                anim.update();
+                
+                player.setY(playerYPos - (int) anim.getState());
+                
+                if (anim.isFinished()) {
+                    if (animMode == ANIM_UP) {
+                        animMode = ANIM_DOWN;
+                        anim.invert();
+                    } else if (animMode == ANIM_DOWN) {
+                        animMode = ANIM_NONE;
+                        anim.invert(false);
+                        player.isJumping = false;
                     }
-                    
-                    // when falling, invert pixelToMove
-                    if (jumpHeight < 0) {
-                        pixelToMove = -pixelToMove;
-                    }
-                    
-                    // when jumpHeight is less than pixelToMove, move the remaining amount
-                    if (jumpHeight > 0 && jumpHeight < pixelToMove || jumpHeight < 0 && jumpHeight > pixelToMove) {
-                        pixelToMove = (int) jumpHeight;
-                    }
-                    
-                    player.setY(player.getY() - pixelToMove);
-                                        
-                    if (jumpHeight > 0 && jumpHeight - pixelToMove == 0) {
-                        jumpHeight = (double) -player.jumpHeight;
-                    } else {
-                        jumpHeight -= pixelToMove;
-                    }
-                } else {
-                    jumpHeight = (double) player.jumpHeight;
-                    player.isJumping = false;
                 }
             }
             

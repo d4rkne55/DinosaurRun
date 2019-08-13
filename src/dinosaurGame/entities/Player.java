@@ -13,8 +13,8 @@ public class Player extends Entity
     public boolean hasCollision = true;
     public boolean isAlive = true;
     public boolean isJumping = false;
-    public int jumpHeight = 180;
-    public int jumpDuration = 750;
+    public int jumpHeight = 175;
+    public int jumpDuration = 650;
     
     public Player() {
         super("Player", 0, 0, "assets/dino.png");
