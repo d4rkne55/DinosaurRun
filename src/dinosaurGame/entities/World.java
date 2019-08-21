@@ -50,7 +50,7 @@ public class World
     }
     
     private void generateObstacles() {
-        int maxCount = 3;
+        int maxCount = 5;
         
         // if an obstacle is out of view, remove it
         if (!this.obstacles.isEmpty() && !this.obstacles.get(0).isVisible()) {
@@ -62,22 +62,41 @@ public class World
             // concurrent modification of the obstacles list with the foreach in draw()
             if (this.multiple || System.currentTimeMillis() - this.lastObstacleCreation >= this.obstacleDelay) {
                 int posX = Game.window.getWidth();
+                
                 if (this.multiple && !this.obstacles.isEmpty()) {
-                    posX += this.obstacles.get(this.obstacles.size() - 1).getImage().getWidth();
+                    Entity lastObstacle = this.obstacles.get(this.obstacles.size() - 1);
+                    posX += lastObstacle.getHitbox().width;
                 }
                 
-                obstacles.add(new Cactus(posX, -50, RandomNumber.getFloatRange(0.75f, 1.0f)));
+                Entity newObstacle = new Cactus(posX, -50, RandomNumber.getFloatRange(0.75f, 1.0f));
+                obstacles.add(newObstacle);
                 
                 this.lastObstacleCreation = System.currentTimeMillis();
                 // random delay after which an obstacle should be added
                 this.obstacleDelay = (long) RandomNumber.getIntRange(750, 2500);
-                // random choice whether the next obstacle should be placed next to this one, max two together
-                this.multiple = (this.multiple) ? false : RandomNumber.getIntRange(0, 1) == 1;
+                
+                // if enough space and this obstacle is not already placed next to one (max two together)
+                // decide randomly whether the next obstacle should be placed next to this one
+                if (this.obstacles.size() < (maxCount - 1) && !this.multiple) {
+                    this.multiple = (RandomNumber.getIntRange(0, 1) == 1);
+                } else {
+                    this.multiple = false;
+                }
             }
         }
     }
     
     public void requestClear() {
         this.clearRequested = true;
+    }
+    
+    public void reset() {
+        // don't clear the list directly, as that can potentially
+        // throw a ConcurrentModificationException (because of the draw for-loop)
+        this.requestClear();
+        
+        this.multiple = false;
+        World.offset = 0;
+        World.speed = 9;
     }
 }

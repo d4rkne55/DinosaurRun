@@ -191,10 +191,7 @@ public class Game implements Runnable
     public static void reset() {
         player.setAlive(true);
         player.isJumping = false;
-        // don't clear the list directly, as that can potentially
-        // throw a ConcurrentModificationException (because of the draw for-loop)
-        world.requestClear();
-        World.speed = 9;
+        world.reset();
         score.updateHighscore();
         score.reset();
     }
