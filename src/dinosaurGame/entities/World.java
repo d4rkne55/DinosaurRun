@@ -41,9 +41,11 @@ public class World
             obstacle.draw(g);
             
             // collision detection
-            if (Game.player.hasCollision && ((Cactus) obstacle).hasCollision) {
-                if (Game.player.getHitbox().intersects(obstacle.getHitbox())) {
-                    Game.gameOver();
+            if (Game.player.isAlive) {
+                if (Game.player.hasCollision && ((Cactus) obstacle).hasCollision) {
+                    if (Game.player.getHitbox().intersects(obstacle.getHitbox())) {
+                        Game.gameOver();
+                    }
                 }
             }
         }
