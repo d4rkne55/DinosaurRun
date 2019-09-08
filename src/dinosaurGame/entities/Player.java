@@ -15,6 +15,7 @@ public class Player extends Entity
     public boolean isJumping = false;
     public int jumpHeight = 175;
     public int jumpDuration = 650;
+    public long lastDeath;
     
     public Player() {
         super("Player", 0, 0, "assets/dino.png");
@@ -50,8 +51,12 @@ public class Player extends Entity
     
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
-        String img = (isAlive) ? "player" : "player_dead";
         
+        if (!isAlive) {
+            this.lastDeath = System.currentTimeMillis();
+        }
+        
+        String img = (isAlive) ? "player" : "player_dead";
         this.image = Game.resources.getImage(img);
     }
 }

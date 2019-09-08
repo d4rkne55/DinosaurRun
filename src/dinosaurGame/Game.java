@@ -141,7 +141,25 @@ public class Game implements Runnable
                 if (player.isAlive) {
                     player.isJumping = true;
                 } else {
-                    reset();
+                    // only allow to restart after 250ms threshold passed since death
+                    long timeSinceDeath = System.currentTimeMillis() - player.lastDeath;
+                    
+                    if (timeSinceDeath >= 250) {
+                        reset();
+                        // reset the jump animation
+                        anim.restart();
+                        anim.invert(false);
+                        animMode = ANIM_NONE;
+                        player.setY(playerYPos);
+                        
+                        // sleep for a bit after restarting, for a second threshold after restart
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
             

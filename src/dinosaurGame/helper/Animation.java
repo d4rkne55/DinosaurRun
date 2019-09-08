@@ -84,4 +84,8 @@ public class Animation
     public void invert(boolean inverted) {
         this.inverted = inverted;
     }
+    
+    public void restart() {
+        this.firstUpdate = 0;
+    }
 }
