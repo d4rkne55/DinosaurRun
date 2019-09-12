@@ -185,6 +185,19 @@ public class Game implements Runnable
                 }
             }
             
+            // level system
+            if (player.isAlive) {
+                if (score.getScore() >= 1000) {
+                    world.setLevel(5);
+                } else if (score.getScore() >= 750) {
+                    world.setLevel(4);
+                } else if (score.getScore() >= 500) {
+                    world.setLevel(3);
+                } else if (score.getScore() >= 250) {
+                    world.setLevel(2);
+                }
+            }
+            
             long execTime = System.nanoTime() - execStartTime;
             
             if (execTime < FRAME_TIME) {

@@ -67,6 +67,10 @@ public class ScorePanel
         }
     }
     
+    public int getScore() {
+        return this.currentScore;
+    }
+    
     public void stop() {
         this.isRunning = false;
     }

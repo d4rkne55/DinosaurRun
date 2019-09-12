@@ -11,6 +11,7 @@ public class World
 {
     public static int offset = 0;
     public static int speed = 9;
+    public static int level = 1;
     
     public Terrain terrain;
     public List<Entity> obstacles;
@@ -82,7 +83,7 @@ public class World
                 obstacles.add(newObstacle);
                 
                 // random distance after which an obstacle should be added
-                this.obstacleDistance = RandomNumber.getIntRange(350, Game.window.getWidth());
+                this.obstacleDistance = RandomNumber.getIntRange(World.speed * 39, Game.window.getWidth());
                 
                 // if enough space and there are not already two obstacles together now
                 // decide randomly whether the next obstacle should be placed next to this one
@@ -91,6 +92,19 @@ public class World
                 } else {
                     this.multiple = false;
                 }
+            }
+        }
+    }
+    
+    public void setLevel(int level) {
+        if (level != World.level) {
+            World.level = level;
+            
+            switch (level) {
+                case 2:
+                    this.maxMultipleCount = 3;
+                default:
+                    World.speed += 1;
             }
         }
     }
@@ -104,8 +118,9 @@ public class World
         // throw a ConcurrentModificationException (because of the draw for-loop)
         this.requestClear();
         
-        this.multiple = false;
         this.obstacleDistance = 0;
+        this.multiple = false;
+        this.maxMultipleCount = 2;
         World.offset = 0;
         World.speed = 9;
     }
